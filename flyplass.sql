@@ -285,4 +285,30 @@ INSERT INTO "rutepris" (rutenummer, reise, billettkategori, gyldig_fra, pris) VA
 ('SK888', 'TRD-SVG', 'økonomi', '2025-01-01', 1700),
 ('SK888', 'TRD-SVG', 'budsjett', '2025-01-01', 1000);
 
+-- Brukstilfelle 7)
+INSERT INTO flyvning (rutenummer, dato, status, registreringsnummer)
+VALUES ('WF1302', '2025-04-01', 'planned', 'LN-WIH');
+
+INSERT INTO kunde (kundenummer, navn, telefon, epost, nasjonalitet)
+VALUES (100, 'Ola Nordmann', '12345678', 'ola@example.com', 'Norsk');
+
+-- Velger å ha ett billetkjøp med 10 billetter
+INSERT INTO billettkjop (referansenummer, kundenummer, kjopstidspunkt, totalpris)
+VALUES (1, 100, '2025-03-01 10:00:00', 5990);
+
+INSERT INTO billett 
+  (referansenummer, flyvning_id, reise_segment, billettkategori, betalt_pris, flytype_navn, radnummer, setebokstav, innsjekk_tidspunkt)
+VALUES
+  (1, 1, 'BOO-TRD', 'økonomi', 599, 'Dash-8 100', 1, 'A', NULL),
+  (1, 1, 'BOO-TRD', 'økonomi', 599, 'Dash-8 100', 1, 'B', NULL),
+  (1, 1, 'BOO-TRD', 'økonomi', 599, 'Dash-8 100', 2, 'A', NULL),
+  (1, 1, 'BOO-TRD', 'økonomi', 599, 'Dash-8 100', 2, 'B', NULL),
+  (1, 1, 'BOO-TRD', 'økonomi', 599, 'Dash-8 100', 3, 'A', NULL),
+  (1, 1, 'BOO-TRD', 'økonomi', 599, 'Dash-8 100', 3, 'B', NULL),
+  (1, 1, 'BOO-TRD', 'økonomi', 599, 'Dash-8 100', 4, 'A', NULL),
+  (1, 1, 'BOO-TRD', 'økonomi', 599, 'Dash-8 100', 4, 'B', NULL),
+  (1, 1, 'BOO-TRD', 'økonomi', 599, 'Dash-8 100', 5, 'A', NULL),
+  (1, 1, 'BOO-TRD', 'økonomi', 599, 'Dash-8 100', 5, 'B', NULL);
+
+
 COMMIT;
