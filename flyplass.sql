@@ -246,9 +246,6 @@ VALUES ('SK888', 1, 'TRD', 'BGO', '10:00', '11:10');
 -- Etappe 2: BGO -> SVG, 11:40-12:10
 INSERT INTO "ruteetappe" (rutenummer, rekkefolge, fra_flyplasskode, til_flyplasskode, planlagt_avgang, planlagt_ankomst)
 VALUES ('SK888', 2, 'BGO', 'SVG', '11:40', '12:10');
--- Etappe 3: TRD -> SVG, 10:00-12:10
-INSERT INTO "ruteetappe" (rutenummer, rekkefolge, fra_flyplasskode, til_flyplasskode, planlagt_avgang, planlagt_ankomst)
-VALUES ('SK888', 3, 'TRD', 'SVG', '10:00', '12:10');
 
 -- Rutepriser
 -- WF1311: TRD-BOO
