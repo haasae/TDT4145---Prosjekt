@@ -1,1 +1,1 @@
-Mangler fortsatt brukstilfelle 8).
+Alle brukstilfeller er dekket. Sjekk om det er noe jeg har glemt å implementere
