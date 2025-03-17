@@ -1,1 +1,5 @@
-Alle brukstilfeller er dekket. Sjekk om det er noe jeg har glemt å implementere
+Mangler:
+
+- Fordelsprogram
+- Bagasje (?)
+- Sete for hver delreise i stedet for hele reisen
