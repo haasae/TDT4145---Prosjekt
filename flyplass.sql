@@ -293,14 +293,15 @@ INSERT INTO flyvning (rutenummer, dato, status, registreringsnummer)
 VALUES ('DY753', '2025-03-01', 'planned', 'LN-ENU');
 
 INSERT INTO flyvning (rutenummer, dato, status, registreringsnummer)
-VALUES ('SK888', '2025-02-01', 'planned', 'SE-RUB');
+VALUES ('SK888', '2025-04-02', 'planned', 'SE-RUB');
 
+-- Kunder
 INSERT INTO kunde (kundenummer, navn, telefon, epost, nasjonalitet)
 VALUES (100, 'Ola Nordmann', '12345678', 'ola@example.com', 'Norsk');
 
 -- Velger å ha ett billetkjøp med 10 billetter
 INSERT INTO billettkjop (referansenummer, kundenummer, kjopstidspunkt, totalpris)
-VALUES (1, 100, '2025-03-01 10:00:00', 5990);
+VALUES (1, 100, '2025-03-01 10:00:00', 1500);
 
 INSERT INTO billett 
   (referansenummer, flyvning_id, reise_segment, billettkategori, betalt_pris, flytype_navn, radnummer, setebokstav, innsjekk_tidspunkt)
