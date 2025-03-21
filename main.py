@@ -1,16 +1,18 @@
 import os
 import sqlite3
 
-# Initialiserer databasen ved å kjøre SQL-skriptet dersom databasen ikke finnes
 def init_db(db_path, sql_script_path):
-    if not os.path.exists(db_path):
-        conn = sqlite3.connect(db_path)
-        cursor = conn.cursor()
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    # Sjekker om tabellen 'flyplass' finnes
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='flyplass'")
+    table_exists = cursor.fetchone()
+    if not table_exists:
         with open(sql_script_path, 'r', encoding='utf-8') as f:
             sql_script = f.read()
         cursor.executescript(sql_script)
         conn.commit()
-        conn.close()
+    conn.close()
 
 # ---------------------------
 # Funksjonalitet for brukstilfelle 6)
@@ -29,7 +31,7 @@ def select_flyplass(flyplasser):
     print("Velg en flyplass:")
     for i, (kode, navn) in enumerate(flyplasser, start=1):
         print(f"{i}. {navn} ({kode})")
-    valg = int(input("Skriv inn nummeret til ønsket flyplass: "))
+    valg = int(input("Skriv inn ID-nummeret (nummeret lengst til venstre) for ønsket flyplass: "))
     if 1 <= valg <= len(flyplasser):
         return flyplasser[valg - 1]
     else:
@@ -162,7 +164,6 @@ def get_available_seats(cursor, flyvning_id, segment_str):
         WHERE v.flyvning_id = ?
     """, (flyvning_id,))
     row = cursor.fetchone()
-    print(row)
     if row is None:
         return []
     flytype = row[0]
@@ -261,7 +262,7 @@ def select_flight(cursor):
         flyvning_id, rutenummer, dato, status, regnr = flight
         print(f"{idx}. Rutenummer: {rutenummer}, Dato: {dato}, Registreringsnummer: {regnr}")
 
-    valg = int(input("Velg en flyvning ved å skrive inn nummeret: "))
+    valg = int(input("Velg en flyvning ved å skrive inn ID-nummeret lengst til venstre: "))
     if 1 <= valg <= len(flights):
         selected = flights[valg - 1]
         return selected[0]  # Returnerer flyvning_id
@@ -277,7 +278,25 @@ def find_available_seats(cursor):
         return
     legs_info = query_available_seats_for_flight(cursor, flight_id)
     display_available_seats(legs_info)
-    
+
+
+# Brukstilfelle 5    
+# Returnerer en liste med (flyselskap, flytype, antall_fly).
+# Viser hvilke flyselskap som bruker hvilke flytyper og hvor mange fly de har av hver type.
+def query_flyselskap_flytyper_count(cursor):
+    query = """
+    SELECT fs.navn AS flyselskap,
+           ft.navn AS flytype,
+           COUNT(f.registreringsnummer) AS antall_fly
+    FROM flyselskap fs
+    JOIN fly f ON fs.kode = f.flyselskap_kode
+    JOIN flytype ft ON f.flytype_navn = ft.navn
+    GROUP BY fs.navn, ft.navn
+    ORDER BY fs.navn, ft.navn;
+    """
+    cursor.execute(query)
+    return cursor.fetchall()
+
 
 # ---------------------------
 # Hovedprogram med meny
@@ -295,7 +314,8 @@ def main():
     print("Velg funksjonalitet:")
     print("1. Søk avganger/ankomster fra flyplass")
     print("2. Sjekk ledige seter for en flyvning")
-    valg = input("Skriv 1 eller 2: ")
+    print("3. Test brukstilfelle 5")
+    valg = input("Skriv 1, 2 eller 3: ")
     
     if valg == "1":
         flyplasser = get_flyplasser(cursor)
@@ -317,6 +337,11 @@ def main():
     
     elif valg == "2":
         find_available_seats(cursor)
+    elif valg == "3":
+        results = query_flyselskap_flytyper_count(cursor)
+    # For å vise resultatene:
+        for (selskap, flytype, antall) in results:
+            print(f"{selskap} bruker {flytype} og har {antall} fly.")
     else:
         print("Ugyldig valg.")
     

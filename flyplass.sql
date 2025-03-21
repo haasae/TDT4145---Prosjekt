@@ -1,6 +1,9 @@
 BEGIN TRANSACTION;
 
--- Oppretting av tabeller
+----------------------------------------------------------------------------------
+--                             Oppretting av tabeller
+----------------------------------------------------------------------------------
+
 
 CREATE TABLE IF NOT EXISTS "bagasje" (
 	"bagasje_id"	INTEGER,
@@ -157,7 +160,9 @@ CREATE TABLE IF NOT EXISTS "sete" (
 	CONSTRAINT "fk_sete_flytype_navn" FOREIGN KEY("flytype_navn") REFERENCES "flytype"("navn")
 );
 
--- Populering av data
+----------------------------------------------------------------------------------
+--                          Populering av tabeller
+----------------------------------------------------------------------------------
 
 -- Flyplasser (Vedlegg 1)
 INSERT INTO "flyplass" (kode, navn) VALUES
@@ -210,6 +215,7 @@ INSERT INTO "fly" (registreringsnummer, flytype_navn, flyselskap_kode, produsent
 ('LN-WIL', 'Dash-8 100', 'WF', 'De Havilland Canada', 298, 'Narvik', 1995);
 
 -- Flyruter (Vedlegg 3)
+
 -- WF1311: TRD-BOO, 15:15-16:20, ukedager: 12345
 INSERT INTO "flyrute" (rutenummer, flyselskap_kode, flytype_navn, ukedager, startdato, sluttdato) VALUES
 ('WF1311', 'WF', 'Dash-8 100', '12345', '2025-01-01', NULL);
@@ -248,6 +254,7 @@ INSERT INTO "ruteetappe" (rutenummer, rekkefolge, fra_flyplasskode, til_flyplass
 VALUES ('SK888', 2, 'BGO', 'SVG', '11:40', '12:10');
 
 -- Rutepriser
+
 -- WF1311: TRD-BOO
 INSERT INTO "rutepris" (rutenummer, reise, billettkategori, gyldig_fra, pris) VALUES
 ('WF1311', 'TRD-BOO', 'premium', '2025-01-01', 2018),
@@ -269,6 +276,7 @@ INSERT INTO "rutepris" (rutenummer, reise, billettkategori, gyldig_fra, pris) VA
 ('SK332', 'OSL-TRD', 'økonomi', '2025-01-01', 1000),
 ('SK332', 'OSL-TRD', 'budsjett', '2025-01-01', 500);
 -- SK888:
+
 -- For etappe 1: TRD-BGO
 INSERT INTO "rutepris" (rutenummer, reise, billettkategori, gyldig_fra, pris) VALUES
 ('SK888', 'TRD-BGO', 'premium', '2025-01-01', 2000),
@@ -286,14 +294,15 @@ INSERT INTO "rutepris" (rutenummer, reise, billettkategori, gyldig_fra, pris) VA
 ('SK888', 'TRD-SVG', 'budsjett', '2025-01-01', 1000);
 
 -- Brukstilfelle 7)
+
 INSERT INTO flyvning (rutenummer, dato, status, registreringsnummer)
 VALUES ('WF1302', '2025-04-01', 'planned', 'LN-WIH');
 
 INSERT INTO flyvning (rutenummer, dato, status, registreringsnummer)
-VALUES ('DY753', '2025-03-01', 'planned', 'LN-ENU');
+VALUES ('DY753', '2025-04-01', 'planned', 'LN-ENU');
 
 INSERT INTO flyvning (rutenummer, dato, status, registreringsnummer)
-VALUES ('SK888', '2025-04-02', 'planned', 'SE-RUB');
+VALUES ('SK888', '2025-04-01', 'planned', 'SE-RUB');
 
 -- Kunder
 INSERT INTO kunde (kundenummer, navn, telefon, epost, nasjonalitet)
@@ -301,7 +310,7 @@ VALUES (100, 'Ola Nordmann', '12345678', 'ola@example.com', 'Norsk');
 
 -- Velger å ha ett billetkjøp med 10 billetter
 INSERT INTO billettkjop (referansenummer, kundenummer, kjopstidspunkt, totalpris)
-VALUES (1, 100, '2025-03-01 10:00:00', 1500);
+VALUES (1, 100, '2025-04-01 10:00:00', 5990);
 
 INSERT INTO billett 
   (referansenummer, flyvning_id, reise_segment, billettkategori, betalt_pris, flytype_navn, radnummer, setebokstav, innsjekk_tidspunkt)
