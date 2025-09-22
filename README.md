@@ -1,3 +1,3 @@
-Mangler:
+# Flyplass-prosjekt med SQL
 
-Ingenting
+Prosjekt med fokus på brukervennlighet og bruk av SQL
